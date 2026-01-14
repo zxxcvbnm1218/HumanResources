@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Resources</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+    .module-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.3s ease;
+    }
+    .module-card:hover {
+      border-color: rgba(255,255,255,0.15);
+    }
+    .module-card.expanded {
+      border-color: rgba(255,255,255,0.2);
+    }
+    input, select, textarea {
+      background: rgba(255,255,255,0.05) !important;
+      border: 1px solid rgba(255,255,255,0.12) !important;
+      color: #e2e8f0 !important;
+      transition: all 0.2s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #3b82f6 !important;
+      outline: none !important;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+    }
+    input::placeholder { color: rgba(148, 163, 184, 0.5) !important; }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      transform: none;
+      cursor: not-allowed;
+    }
+    .list-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.2s ease;
+    }
+    .list-item:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.1);
+    }
+    .tag {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+    .fade-in { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .toast {
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full bg-slate-950 text-slate-200 overflow-auto">
+  <div class="min-h-full w-full" style="background: radial-gradient(ellipse at top left, rgba(59, 130, 246, 0.06) 0%, transparent 50%), radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.05) 0%, transparent 50%), #0a0f1a;">
+   <div class="max-w-6xl mx-auto px-4 py-8 md:py-12"><!-- Header - Main View Only -->
+    <header id="main-header" class="text-center mb-8 md:mb-10">
+     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
+      <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" />
+      </svg><span class="text-xs text-blue-400 font-medium">AirSync Pro</span>
+     </div>
+     <h1 id="module-title" class="text-2xl md:text-4xl font-bold text-white mb-2">Staff &amp; Operations Hub</h1>
+    </header><!-- Main View - Module Cards -->
+    <div id="main-view">
+     <div class="grid md:grid-cols-2 gap-4 md:gap-5"><!-- 1. Staff Management Card --> <button onclick="navigateTo('staff')" class="module-card rounded-2xl p-5 md:p-6 text-left flex items-start gap-4 hover:scale-[1.02] transition-transform">
+       <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 flex items-center justify-center flex-shrink-0">
+        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+       </div>
+       <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between">
+         <h2 class="text-lg font-semibold text-white">Staff Management</h2>
+         <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+         </svg>
+        </div>
+        <p class="text-sm text-slate-400 mt-1">Cleaners, maintenance staff, property managers</p>
+        <div class="flex gap-2 mt-3"><span class="tag px-2 py-1 rounded text-xs text-slate-300">Cleaners</span> <span class="tag px-2 py-1 rounded text-xs text-slate-300">Maintenance</span> <span class="tag px-2 py-1 rounded text-xs text-slate-300">Managers</span>
+        </div>
+       </div></button> <!-- 2. Scheduling Card --> <button onclick="navigateTo('scheduling')" class="module-card rounded-2xl p-5 md:p-6 text-left flex items-start gap-4 hover:scale-[1.02] transition-transform">
+       <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/10 flex items-center justify-center flex-shrink-0">
+        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+       </div>
+       <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between">
+         <h2 class="text-lg font-semibold text-white">Scheduling &amp; Payroll</h2>
+         <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+         </svg>
+        </div>
+        <p class="text-sm text-slate-400 mt-1">Shift scheduling, time tracking, automated payments</p>
+        <div class="flex gap-2 mt-3"><span class="tag px-2 py-1 rounded text-xs text-slate-300">Shifts</span> <span class="tag px-2 py-1 rounded text-xs text-slate-300">Time Tracking</span> <span class="tag px-2 py-1 rounded text-xs text-slate-300">Payments</span>
+        </div>
+       </div></button> <!-- 3. Performance Card --> <button onclick="navigateTo('performance')" class="module-card rounded-2xl p-5 md:p-6 text-left flex items-start gap-4 hover:scale-[1.02] transition-transform">
+       <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 flex items-center justify-center flex-shrink-0">
+        <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+       </div>
+       <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between">
+         <h2 class="text-lg font-semibold text-white">Performance Metrics</h2>
+         <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+         </svg>
+        </div>
+        <p class="text-sm text-slate-400 mt-1">Quality ratings, response times, guest satisfaction</p>
+        <div class="flex gap-2 mt-3"><span class="tag px-2 py-1 rounded text-xs text-slate-300">Ratings</span> <span class="tag px-2 py-1 rounded text-xs text-slate-300">Response Time</span> <span class="tag px-2 py-1 rounded text-xs text-slate-300">Satisfaction</span>
+        </div>
+       </div></button> <!-- 4. Training Card --> <button onclick="navigateTo('training')" class="module-card rounded-2xl p-5 md:p-6 text-left flex items-start gap-4 hover:scale-[1.02] transition-transform">
+       <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/10 flex items-center justify-center flex-shrink-0">
+        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+        </svg>
+       </div>
+       <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between">
+         <h2 class="text-lg font-semibold text-white">Training Management</h2>
+         <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+         </svg>
+        </div>
+        <p class="text-sm text-slate-400 mt-1">Certification tracking for service providers</p>
+        <div class="flex gap-2 mt-3"><span class="tag px-2 py-1 rounded text-xs text-slate-300">Certifications</span> <span class="tag px-2 py-1 rounded text-xs text-slate-300">Training</span>
+        </div>
+       </div></button>
+     </div>
+    </div><!-- Staff Management Page -->
+    <div id="staff-page" class="hidden fade-in"><button onclick="navigateTo('main')" class="flex items-center gap-2 text-slate-400 hover:text-white mb-6 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg><span>Back</span> </button>
+     <div class="flex items-center gap-4 mb-6">
+      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 flex items-center justify-center">
+       <svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+       </svg>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-white">Staff Management</h2>
+       <p class="text-slate-400">Manage cleaners, maintenance staff &amp; property managers</p>
+      </div>
+     </div>
+     <div class="module-card rounded-2xl p-5 md:p-6"><!-- Add Staff Form -->
+      <form id="staff-form" onsubmit="handleAddStaff(event)" class="mb-5">
+       <h3 class="text-sm font-medium text-slate-300 mb-3">Add New Staff Member</h3>
+       <div class="grid grid-cols-2 gap-3 mb-3">
+        <div><label for="staff-name" class="block text-xs text-slate-400 mb-1">Full Name *</label> <input type="text" id="staff-name" required class="w-full px-3 py-2 rounded-lg text-sm" placeholder="John Smith">
+        </div>
+        <div><label for="staff-role" class="block text-xs text-slate-400 mb-1">Role *</label> <select id="staff-role" required class="w-full px-3 py-2 rounded-lg text-sm"> <option value="">Select...</option> <option value="cleaner">Cleaner</option> <option value="maintenance">Maintenance</option> <option value="manager">Manager</option> </select>
+        </div>
+       </div>
+       <div class="grid grid-cols-2 gap-3 mb-3">
+        <div><label for="staff-email" class="block text-xs text-slate-400 mb-1">Email</label> <input type="email" id="staff-email" class="w-full px-3 py-2 rounded-lg text-sm" placeholder="john@email.com">
+        </div>
+        <div><label for="staff-phone" class="block text-xs text-slate-400 mb-1">Phone</label> <input type="tel" id="staff-phone" class="w-full px-3 py-2 rounded-lg text-sm" placeholder="+1 234 567 890">
+        </div>
+       </div>
+       <div class="grid grid-cols-2 gap-3 mb-4">
+        <div><label for="staff-rate" class="block text-xs text-slate-400 mb-1">Hourly Rate ($) *</label> <input type="number" id="staff-rate" required min="0" step="0.01" class="w-full px-3 py-2 rounded-lg text-sm" placeholder="25.00">
+        </div>
+        <div><label for="staff-status" class="block text-xs text-slate-400 mb-1">Status</label> <select id="staff-status" class="w-full px-3 py-2 rounded-lg text-sm"> <option value="active">Active</option> <option value="inactive">Inactive</option> <option value="on_leave">On Leave</option> </select>
+        </div>
+       </div><button type="submit" id="add-staff-btn" class="btn-primary w-full py-2.5 rounded-lg text-sm font-medium text-white"> Add Staff Member </button>
+      </form><!-- Staff List -->
+      <div>
+       <h3 class="text-sm font-medium text-slate-300 mb-3">Staff Directory (<span id="staff-count">0</span>)</h3>
+       <div id="staff-list" class="space-y-2 max-h-96 overflow-y-auto">
+        <p class="text-sm text-slate-500 text-center py-4">No staff members yet</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Scheduling & Payroll Page -->
+    <div id="scheduling-page" class="hidden fade-in"><button onclick="navigateTo('main')" class="flex items-center gap-2 text-slate-400 hover:text-white mb-6 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg><span>Back</span> </button>
+     <div class="flex items-center gap-4 mb-6">
+      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/10 flex items-center justify-center">
+       <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+       </svg>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-white">Scheduling &amp; Payroll</h2>
+       <p class="text-slate-400">Manage shifts, time tracking &amp; automated payments</p>
+      </div>
+     </div>
+     <div class="module-card rounded-2xl p-5 md:p-6"><!-- Add Shift Form -->
+      <form id="shift-form" onsubmit="handleAddShift(event)" class="mb-5">
+       <h3 class="text-sm font-medium text-slate-300 mb-3">Schedule New Shift</h3>
+       <div class="mb-3"><label for="shift-staff" class="block text-xs text-slate-400 mb-1">Assign Staff *</label> <select id="shift-staff" required class="w-full px-3 py-2 rounded-lg text-sm"> <option value="">Select staff...</option> </select>
+       </div>
+       <div class="grid grid-cols-3 gap-3 mb-4">
+        <div><label for="shift-date" class="block text-xs text-slate-400 mb-1">Date *</label> <input type="date" id="shift-date" required class="w-full px-3 py-2 rounded-lg text-sm">
+        </div>
+        <div><label for="shift-start" class="block text-xs text-slate-400 mb-1">Start *</label> <input type="time" id="shift-start" required class="w-full px-3 py-2 rounded-lg text-sm">
+        </div>
+        <div><label for="shift-end" class="block text-xs text-slate-400 mb-1">End *</label> <input type="time" id="shift-end" required class="w-full px-3 py-2 rounded-lg text-sm">
+        </div>
+       </div><button type="submit" id="add-shift-btn" class="btn-primary w-full py-2.5 rounded-lg text-sm font-medium text-white"> Schedule Shift </button>
+      </form><!-- Payroll Summary -->
+      <div class="grid grid-cols-3 gap-3 mb-4">
+       <div class="bg-slate-800/30 rounded-lg p-3 text-center">
+        <p id="total-payroll" class="text-lg font-bold text-emerald-400">$0</p>
+        <p class="text-xs text-slate-400">Total Payroll</p>
+       </div>
+       <div class="bg-slate-800/30 rounded-lg p-3 text-center">
+        <p id="total-hours" class="text-lg font-bold text-blue-400">0</p>
+        <p class="text-xs text-slate-400">Total Hours</p>
+       </div>
+       <div class="bg-slate-800/30 rounded-lg p-3 text-center">
+        <p id="shift-count" class="text-lg font-bold text-purple-400">0</p>
+        <p class="text-xs text-slate-400">Shifts</p>
+       </div>
+      </div><!-- Shifts List -->
+      <div>
+       <h3 class="text-sm font-medium text-slate-300 mb-3">Scheduled Shifts</h3>
+       <div id="shift-list" class="space-y-2 max-h-64 overflow-y-auto">
+        <p class="text-sm text-slate-500 text-center py-4">No shifts scheduled</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Performance Metrics Page -->
+    <div id="performance-page" class="hidden fade-in"><button onclick="navigateTo('main')" class="flex items-center gap-2 text-slate-400 hover:text-white mb-6 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg><span>Back</span> </button>
+     <div class="flex items-center gap-4 mb-6">
+      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 flex items-center justify-center">
+       <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+       </svg>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-white">Performance Metrics</h2>
+       <p class="text-slate-400">Track quality ratings, response times &amp; guest satisfaction</p>
+      </div>
+     </div>
+     <div class="module-card rounded-2xl p-5 md:p-6"><!-- Update Rating Form -->
+      <form id="rating-form" onsubmit="handleUpdateRating(event)" class="mb-5">
+       <h3 class="text-sm font-medium text-slate-300 mb-3">Update Staff Rating</h3>
+       <div class="grid grid-cols-2 gap-3 mb-4">
+        <div><label for="rating-staff" class="block text-xs text-slate-400 mb-1">Select Staff *</label> <select id="rating-staff" required class="w-full px-3 py-2 rounded-lg text-sm"> <option value="">Select staff...</option> </select>
+        </div>
+        <div><label for="rating-value" class="block text-xs text-slate-400 mb-1">Rating (1-5) *</label> <input type="number" id="rating-value" required min="1" max="5" step="0.1" class="w-full px-3 py-2 rounded-lg text-sm" placeholder="4.5">
+        </div>
+       </div><button type="submit" id="update-rating-btn" class="btn-primary w-full py-2.5 rounded-lg text-sm font-medium text-white"> Update Rating </button>
+      </form><!-- Performance List -->
+      <div>
+       <h3 class="text-sm font-medium text-slate-300 mb-3">Staff Performance Rankings</h3>
+       <div id="performance-list" class="space-y-3 max-h-80 overflow-y-auto">
+        <p class="text-sm text-slate-500 text-center py-4">Add staff to view performance</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Training Management Page -->
+    <div id="training-page" class="hidden fade-in"><button onclick="navigateTo('main')" class="flex items-center gap-2 text-slate-400 hover:text-white mb-6 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg><span>Back</span> </button>
+     <div class="flex items-center gap-4 mb-6">
+      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/10 flex items-center justify-center">
+       <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+       </svg>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-white">Training Management</h2>
+       <p class="text-slate-400">Track certifications for service providers</p>
+      </div>
+     </div>
+     <div class="module-card rounded-2xl p-5 md:p-6"><!-- Add Certification Form -->
+      <form id="cert-form" onsubmit="handleAddCert(event)" class="mb-5">
+       <h3 class="text-sm font-medium text-slate-300 mb-3">Add Certification</h3>
+       <div class="mb-3"><label for="cert-staff" class="block text-xs text-slate-400 mb-1">Staff Member *</label> <select id="cert-staff" required class="w-full px-3 py-2 rounded-lg text-sm"> <option value="">Select staff...</option> </select>
+       </div>
+       <div class="grid grid-cols-2 gap-3 mb-4">
+        <div><label for="cert-name" class="block text-xs text-slate-400 mb-1">Certification *</label> <input type="text" id="cert-name" required class="w-full px-3 py-2 rounded-lg text-sm" placeholder="CPR, First Aid...">
+        </div>
+        <div><label for="cert-expiry" class="block text-xs text-slate-400 mb-1">Expiry Date *</label> <input type="date" id="cert-expiry" required class="w-full px-3 py-2 rounded-lg text-sm">
+        </div>
+       </div><button type="submit" id="add-cert-btn" class="btn-primary w-full py-2.5 rounded-lg text-sm font-medium text-white"> Add Certification </button>
+      </form><!-- Certifications List -->
+      <div>
+       <h3 class="text-sm font-medium text-slate-300 mb-3">Certifications (<span id="cert-count">0</span>)</h3>
+       <div id="cert-list" class="space-y-2 max-h-64 overflow-y-auto">
+        <p class="text-sm text-slate-500 text-center py-4">No certifications added</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Toast Container -->
+   <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+  </div>
+  <script>
+    // State
+    let staffMembers = [];
+    let shifts = [];
+    let certifications = [];
+    let currentPage = 'main';
+
+    const dataHandler = {
+  onDataChanged(data) {
+    console.log('📦 DATA FROM DATABASE:', data);
+
+    staffMembers = data.filter(d => d.type === 'staff');
+    shifts = data.filter(d => d.type === 'shift');
+    certifications = data.filter(d => d.type === 'certification');
+
+    updateAllUI();
+  }
+};
+
+
+    const defaultConfig = {
+      module_title: 'Staff & Operations Hub',
+      background_color: '#0a0f1a',
+      surface_color: '#1e293b',
+      text_color: '#e2e8f0',
+      primary_action: '#3b82f6',
+      secondary_action: '#a855f7'
+    };
+
+    // Data Handler
+    const dataHandler = {
+      onDataChanged(data) {
+        staffMembers = data.filter(d => d.type === 'staff');
+        shifts = data.filter(d => d.type === 'shift');
+        certifications = data.filter(d => d.type === 'certification');
+        
+        updateAllUI();
+      }
+    };
+
+    // Initialize
+    async function initApp() {
+  if (!window.dataSdk) {
+    console.error('❌ Data SDK not found');
+    return;
+  }
+
+  const result = await window.dataSdk.init(dataHandler);
+
+  if (!result.isOk) {
+    console.error('❌ Data SDK init failed:', result);
+  } else {
+    console.log('✅ Data SDK CONNECTED');
+  }
+}
+
+
+      // Data SDK
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          showToast('Failed to connect to database', 'error');
+        }
+      }
+
+      // Set default date
+      document.getElementById('shift-date').value = new Date().toISOString().split('T')[0];
+    
+
+    async function applyConfig(config) {
+      const title = document.getElementById('module-title');
+      if (title) title.textContent = config.module_title || defaultConfig.module_title;
+    }
+
+    // Page Navigation
+    function navigateTo(page) {
+      currentPage = page;
+      
+      // Hide all views
+      document.getElementById('main-view').classList.add('hidden');
+      document.getElementById('staff-page').classList.add('hidden');
+      document.getElementById('scheduling-page').classList.add('hidden');
+      document.getElementById('performance-page').classList.add('hidden');
+      document.getElementById('training-page').classList.add('hidden');
+      document.getElementById('main-header').classList.add('hidden');
+      
+      // Show target view
+      if (page === 'main') {
+        document.getElementById('main-view').classList.remove('hidden');
+        document.getElementById('main-header').classList.remove('hidden');
+      } else {
+        document.getElementById(`${page}-page`).classList.remove('hidden');
+      }
+      
+      // Scroll to top
+      window.scrollTo(0, 0);
+    }
+
+    // Update All UI
+    function updateAllUI() {
+      updateStaffList();
+      updateStaffDropdowns();
+      updateShiftList();
+      updatePayrollSummary();
+      updatePerformanceList();
+      updateCertList();
+    }
+
+    // Staff Management
+    function updateStaffList() {
+      const container = document.getElementById('staff-list');
+      const countEl = document.getElementById('staff-count');
+      countEl.textContent = staffMembers.length;
+
+      if (staffMembers.length === 0) {
+        container.innerHTML = '<p class="text-sm text-slate-500 text-center py-4">No staff members yet</p>';
+        return;
+      }
+
+      container.innerHTML = staffMembers.map(staff => `
+        <div class="list-item rounded-lg p-3 flex items-center justify-between" data-id="${staff.__backendId}">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-white text-xs font-semibold">
+              ${staff.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+            </div>
+            <div>
+              <p class="text-sm font-medium text-white">${staff.name}</p>
+              <p class="text-xs text-slate-400 capitalize">${staff.role} · $${staff.hourly_rate}/hr</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-xs ${staff.status === 'active' ? 'bg-emerald-500/20 text-emerald-400' : staff.status === 'on_leave' ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-500/20 text-slate-400'}">
+              ${staff.status === 'on_leave' ? 'Leave' : staff.status}
+            </span>
+            <button onclick="deleteStaff('${staff.__backendId}')" class="w-7 h-7 rounded hover:bg-rose-500/20 flex items-center justify-center transition-colors">
+              <svg class="w-4 h-4 text-slate-400 hover:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateStaffDropdowns() {
+      const activeStaff = staffMembers.filter(s => s.status === 'active');
+      const options = '<option value="">Select staff...</option>' + 
+        activeStaff.map(s => `<option value="${s.__backendId}">${s.name}</option>`).join('');
+      
+      document.getElementById('shift-staff').innerHTML = options;
+      document.getElementById('rating-staff').innerHTML = options;
+      document.getElementById('cert-staff').innerHTML = options;
+    }
+
+    async function handleAddStaff(e) {
+      e.preventDefault();
+      const btn = document.getElementById('add-staff-btn');
+      btn.disabled = true;
+      btn.textContent = 'Adding...';
+
+      if (staffMembers.length >= 999) {
+        showToast('Maximum 999 staff members reached', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Add Staff Member';
+        return;
+      }
+
+      const staffData = {
+        type: 'staff',
+        name: document.getElementById('staff-name').value,
+        role: document.getElementById('staff-role').value,
+        email: document.getElementById('staff-email').value || '',
+        phone: document.getElementById('staff-phone').value || '',
+        hourly_rate: parseFloat(document.getElementById('staff-rate').value) || 0,
+        status: document.getElementById('staff-status').value,
+        hours_worked: 0,
+        rating: 4.0
+      };
+
+      const result = await window.dataSdk.create(staffData);
+      if (result.isOk) {
+        showToast('Staff member added!', 'success');
+        document.getElementById('staff-form').reset();
+      } else {
+        showToast('Failed to add staff', 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Add Staff Member';
+    }
+
+    async function deleteStaff(id) {
+      const staff = staffMembers.find(s => s.__backendId === id);
+      if (!staff) return;
+      
+      const result = await window.dataSdk.delete(staff);
+      if (result.isOk) {
+        showToast('Staff deleted', 'success');
+      } else {
+        showToast('Failed to delete', 'error');
+      }
+    }
+
+    // Scheduling
+    function updateShiftList() {
+      const container = document.getElementById('shift-list');
+      document.getElementById('shift-count').textContent = shifts.length;
+
+      if (shifts.length === 0) {
+        container.innerHTML = '<p class="text-sm text-slate-500 text-center py-4">No shifts scheduled</p>';
+        return;
+      }
+
+      const sorted = [...shifts].sort((a, b) => new Date(a.shift_date) - new Date(b.shift_date));
+
+      container.innerHTML = sorted.map(shift => {
+        const staff = staffMembers.find(s => s.__backendId === shift.staff_id);
+        const isToday = shift.shift_date === new Date().toISOString().split('T')[0];
+        return `
+          <div class="list-item rounded-lg p-3 flex items-center justify-between ${isToday ? 'border-blue-500/30' : ''}" data-id="${shift.__backendId}">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg ${isToday ? 'bg-blue-500/20' : 'bg-slate-700/50'} flex flex-col items-center justify-center">
+                <span class="text-[10px] ${isToday ? 'text-blue-400' : 'text-slate-400'} uppercase">${new Date(shift.shift_date).toLocaleString('default', { month: 'short' })}</span>
+                <span class="text-sm font-bold ${isToday ? 'text-blue-300' : 'text-slate-300'}">${new Date(shift.shift_date).getDate()}</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-white">${staff?.name || 'Unknown'}</p>
+                <p class="text-xs text-slate-400">${shift.shift_start} - ${shift.shift_end}</p>
+              </div>
+            </div>
+            <button onclick="deleteShift('${shift.__backendId}')" class="w-7 h-7 rounded hover:bg-rose-500/20 flex items-center justify-center transition-colors">
+              <svg class="w-4 h-4 text-slate-400 hover:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updatePayrollSummary() {
+      let totalHours = 0;
+      shifts.forEach(shift => {
+        const start = new Date(`2000-01-01T${shift.shift_start}`);
+        const end = new Date(`2000-01-01T${shift.shift_end}`);
+        const hours = (end - start) / (1000 * 60 * 60);
+        totalHours += hours > 0 ? hours : 0;
+      });
+
+      let totalPayroll = 0;
+      staffMembers.forEach(staff => {
+        const staffShifts = shifts.filter(s => s.staff_id === staff.__backendId);
+        let staffHours = 0;
+        staffShifts.forEach(shift => {
+          const start = new Date(`2000-01-01T${shift.shift_start}`);
+          const end = new Date(`2000-01-01T${shift.shift_end}`);
+          const hours = (end - start) / (1000 * 60 * 60);
+          staffHours += hours > 0 ? hours : 0;
+        });
+        totalPayroll += staffHours * (staff.hourly_rate || 0);
+      });
+
+      document.getElementById('total-hours').textContent = totalHours.toFixed(1);
+      document.getElementById('total-payroll').textContent = `$${totalPayroll.toFixed(0)}`;
+    }
+
+    async function handleAddShift(e) {
+      e.preventDefault();
+      const btn = document.getElementById('add-shift-btn');
+      btn.disabled = true;
+      btn.textContent = 'Scheduling...';
+
+      if (shifts.length >= 999) {
+        showToast('Maximum 999 shifts reached', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Schedule Shift';
+        return;
+      }
+
+      const staffId = document.getElementById('shift-staff').value;
+      const staff = staffMembers.find(s => s.__backendId === staffId);
+
+      const shiftData = {
+        type: 'shift',
+        staff_id: staffId,
+        staff_name: staff?.name || '',
+        shift_date: document.getElementById('shift-date').value,
+        shift_start: document.getElementById('shift-start').value,
+        shift_end: document.getElementById('shift-end').value
+      };
+
+      const result = await window.dataSdk.create(shiftData);
+      if (result.isOk) {
+        showToast('Shift scheduled!', 'success');
+        document.getElementById('shift-form').reset();
+        document.getElementById('shift-date').value = new Date().toISOString().split('T')[0];
+      } else {
+        showToast('Failed to schedule shift', 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Schedule Shift';
+    }
+
+    async function deleteShift(id) {
+      const shift = shifts.find(s => s.__backendId === id);
+      if (!shift) return;
+      
+      const result = await window.dataSdk.delete(shift);
+      if (result.isOk) {
+        showToast('Shift deleted', 'success');
+      } else {
+        showToast('Failed to delete', 'error');
+      }
+    }
+
+    // Performance
+    function updatePerformanceList() {
+      const container = document.getElementById('performance-list');
+
+      if (staffMembers.length === 0) {
+        container.innerHTML = '<p class="text-sm text-slate-500 text-center py-4">Add staff to view performance</p>';
+        return;
+      }
+
+      const sorted = [...staffMembers].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+
+      container.innerHTML = sorted.map((staff, idx) => {
+        const ratingPct = ((staff.rating || 0) / 5) * 100;
+        return `
+          <div class="list-item rounded-lg p-3">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                ${idx < 3 ? `<span class="w-5 h-5 rounded-full ${idx === 0 ? 'bg-amber-400' : idx === 1 ? 'bg-slate-300' : 'bg-amber-600'} flex items-center justify-center text-xs font-bold text-slate-900">${idx + 1}</span>` : ''}
+                <span class="text-sm font-medium text-white">${staff.name}</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                <span class="text-sm font-semibold text-amber-400">${(staff.rating || 0).toFixed(1)}</span>
+              </div>
+            </div>
+            <div class="h-1.5 rounded-full bg-slate-700 overflow-hidden">
+              <div class="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-300 transition-all" style="width: ${ratingPct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function handleUpdateRating(e) {
+      e.preventDefault();
+      const btn = document.getElementById('update-rating-btn');
+      btn.disabled = true;
+      btn.textContent = 'Updating...';
+
+      const staffId = document.getElementById('rating-staff').value;
+      const rating = parseFloat(document.getElementById('rating-value').value);
+      const staff = staffMembers.find(s => s.__backendId === staffId);
+
+      if (staff) {
+        const updated = { ...staff, rating: Math.min(5, Math.max(1, rating)) };
+        const result = await window.dataSdk.update(updated);
+        if (result.isOk) {
+          showToast('Rating updated!', 'success');
+          document.getElementById('rating-form').reset();
+        } else {
+          showToast('Failed to update rating', 'error');
+        }
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Update Rating';
+    }
+
+    // Training/Certifications
+    function updateCertList() {
+      const container = document.getElementById('cert-list');
+      const countEl = document.getElementById('cert-count');
+      countEl.textContent = certifications.length;
+
+      if (certifications.length === 0) {
+        container.innerHTML = '<p class="text-sm text-slate-500 text-center py-4">No certifications added</p>';
+        return;
+      }
+
+      const today = new Date();
+      container.innerHTML = certifications.map(cert => {
+        const staff = staffMembers.find(s => s.__backendId === cert.staff_id);
+        const expiry = new Date(cert.cert_expiry);
+        const daysUntil = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+        const isExpired = daysUntil < 0;
+        const isExpiring = daysUntil >= 0 && daysUntil <= 30;
+
+        return `
+          <div class="list-item rounded-lg p-3 flex items-center justify-between" data-id="${cert.__backendId}">
+            <div>
+              <p class="text-sm font-medium text-white">${cert.cert_name}</p>
+              <p class="text-xs text-slate-400">${staff?.name || 'Unknown'} · Expires ${new Date(cert.cert_expiry).toLocaleDateString()}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-xs ${isExpired ? 'bg-rose-500/20 text-rose-400' : isExpiring ? 'bg-amber-500/20 text-amber-400' : 'bg-emerald-500/20 text-emerald-400'}">
+                ${isExpired ? 'Expired' : isExpiring ? 'Expiring' : 'Valid'}
+              </span>
+              <button onclick="deleteCert('${cert.__backendId}')" class="w-7 h-7 rounded hover:bg-rose-500/20 flex items-center justify-center transition-colors">
+                <svg class="w-4 h-4 text-slate-400 hover:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function handleAddCert(e) {
+      e.preventDefault();
+      const btn = document.getElementById('add-cert-btn');
+      btn.disabled = true;
+      btn.textContent = 'Adding...';
+
+      if (certifications.length >= 999) {
+        showToast('Maximum 999 certifications reached', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Add Certification';
+        return;
+      }
+
+      const staffId = document.getElementById('cert-staff').value;
+      const staff = staffMembers.find(s => s.__backendId === staffId);
+
+      const certData = {
+        type: 'certification',
+        staff_id: staffId,
+        staff_name: staff?.name || '',
+        cert_name: document.getElementById('cert-name').value,
+        cert_expiry: document.getElementById('cert-expiry').value
+      };
+
+      const result = await window.dataSdk.create(certData);
+      if (result.isOk) {
+        showToast('Certification added!', 'success');
+        document.getElementById('cert-form').reset();
+      } else {
+        showToast('Failed to add certification', 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Add Certification';
+    }
+
+    async function deleteCert(id) {
+      const cert = certifications.find(c => c.__backendId === id);
+      if (!cert) return;
+      
+      const result = await window.dataSdk.delete(cert);
+      if (result.isOk) {
+        showToast('Certification deleted', 'success');
+      } else {
+        showToast('Failed to delete', 'error');
+      }
+    }
+
+    // Toast
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast rounded-lg px-4 py-3 flex items-center gap-2 ${
+        type === 'success' ? 'bg-emerald-500/90' : 
+        type === 'error' ? 'bg-rose-500/90' : 'bg-blue-500/90'
+      }`;
+      toast.innerHTML = `
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          ${type === 'success' 
+            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>'
+            : type === 'error'
+            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>'
+            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'}
+        </svg>
+        <span class="text-sm text-white font-medium">${message}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Init
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9af7a571623abc43',t:'MTc2NTk4NzM2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
